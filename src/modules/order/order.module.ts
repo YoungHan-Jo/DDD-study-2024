@@ -1,7 +1,7 @@
-import { Module } from "@nestjs/common";
-import { OrderController } from "./controller/order.controller";
+import { Module } from '@nestjs/common';
+import { OrderController } from './controller/order.controller';
 
 @Module({
-    providers: [OrderController],
+  providers: [OrderController],
 })
-export class OrderModule { }
+export class OrderModule {}
