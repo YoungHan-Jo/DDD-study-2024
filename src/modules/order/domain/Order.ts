@@ -62,13 +62,13 @@ export class Order {
 
   getShippingInfo = () => {
     return this.shippingInfo;
-  }
+  };
 
   getState = () => {
     return this.state;
-  }
+  };
 
-  changeShipped = () => { };
+  changeShipped = () => {};
 
   changeShippingInfo = (newShippingInfo: ShippingInfo) => {
     this.verifyNotYetShipped();
@@ -81,10 +81,13 @@ export class Order {
   };
 
   private verifyNotYetShipped = () => {
-    if (this.state != EOrderState.PAYMENT_WAITING && this.state != EOrderState.PREPARING) {
+    if (
+      this.state != EOrderState.PAYMENT_WAITING &&
+      this.state != EOrderState.PREPARING
+    ) {
       throw new IllegalStateError({ message: 'already shipped' });
     }
-  }
+  };
 
-  completePayment = () => { };
+  completePayment = () => {};
 }

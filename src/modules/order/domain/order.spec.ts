@@ -5,6 +5,8 @@ import { OrderLine } from './orderLine';
 import { Product } from './product';
 import { ShippingInfo } from './shippingInfo';
 import { EOrderState } from './orderState';
+import { Receiver } from './receiver';
+import { Address } from './address';
 
 describe('Order', () => {
     const product = new Product({ name: 'sample product A' });
@@ -36,7 +38,7 @@ describe('Order', () => {
         const order = new Order({
             orderLines: [orderLineA, orderLineB],
             shippingInfo,
-            state: EOrderState.PREPARING
+            state: EOrderState.PREPARING,
         });
 
         // Then
@@ -51,17 +53,21 @@ describe('Order', () => {
         const order = new Order({
             orderLines: [orderLineA, orderLineB],
             shippingInfo,
-        })
+        });
         // Then
         expect(order.getState()).toEqual(EOrderState.PAYMENT_WAITING);
-    })
+    });
 
     it('if no orderLines, throw illegalArgumentError', () => {
         // Given
 
         // When & Then
         expect(() => {
-            new Order({ orderLines: [], shippingInfo, state: EOrderState.PAYMENT_WAITING });
+            new Order({
+                orderLines: [],
+                shippingInfo,
+                state: EOrderState.PAYMENT_WAITING,
+            });
         }).toThrow(IllegalArgumentError);
     });
 
@@ -70,7 +76,11 @@ describe('Order', () => {
 
         // When & Then
         expect(() => {
-            new Order({ orderLines: [orderLineA], shippingInfo: null, state: EOrderState.PAYMENT_WAITING });
+            new Order({
+                orderLines: [orderLineA],
+                shippingInfo: null,
+                state: EOrderState.PAYMENT_WAITING,
+            });
         }).toThrow(IllegalArgumentError);
     });
 
@@ -97,14 +107,11 @@ describe('Order', () => {
 
         // Then
         expect(order.getShippingInfo()).toEqual(newShippingInfo);
-
-
-
-    })
+    });
 
     it('If state is PREPARING, can change shippingInfo', () => {
         // Given
-        const state = EOrderState.PREPARING
+        const state = EOrderState.PREPARING;
 
         const newShippingInfo = generateShippingInfo({
             receiverName: 'nameB',
@@ -125,7 +132,7 @@ describe('Order', () => {
 
         // Then
         expect(order.getShippingInfo()).toEqual(newShippingInfo);
-    })
+    });
 
     it('If state is SHIPPED, throw IllegalStateError', () => {
         // Given
@@ -149,7 +156,7 @@ describe('Order', () => {
         expect(() => {
             order.changeShippingInfo(newShippingInfo);
         }).toThrow(IllegalStateError);
-    })
+    });
     it('If state is DELIVERING, throw IllegalStateError', () => {
         // Given
         const state = EOrderState.DELIVERING;
@@ -172,7 +179,7 @@ describe('Order', () => {
         expect(() => {
             order.changeShippingInfo(newShippingInfo);
         }).toThrow(IllegalStateError);
-    })
+    });
     it('If state is DELIVERY_COMPLETED, throw IllegalStateError', () => {
         // Given
         const state = EOrderState.DELIVERY_COMPLETED;
@@ -195,7 +202,7 @@ describe('Order', () => {
         expect(() => {
             order.changeShippingInfo(newShippingInfo);
         }).toThrow(IllegalStateError);
-    })
+    });
     it('If state is CANCELED, throw IllegalStateError', () => {
         // Given
         const state = EOrderState.CANCELED;
@@ -218,8 +225,7 @@ describe('Order', () => {
         expect(() => {
             order.changeShippingInfo(newShippingInfo);
         }).toThrow(IllegalStateError);
-    })
-
+    });
 });
 
 function generateShippingInfo({
@@ -235,12 +241,19 @@ function generateShippingInfo({
     shippingAddress2: string;
     shippingZipCode: string;
 }) {
+    const receiver = new Receiver({
+        name: receiverName,
+        phoneNumber: receiverPhoneNumber,
+    });
+    const address = new Address({
+        address1: shippingAddress1,
+        address2: shippingAddress2,
+        zipCode: shippingZipCode,
+    });
+
     return new ShippingInfo({
-        receiverName,
-        receiverPhoneNumber,
-        shippingAddress1,
-        shippingAddress2,
-        shippingZipCode,
+        receiver,
+        address,
     });
 }
 
