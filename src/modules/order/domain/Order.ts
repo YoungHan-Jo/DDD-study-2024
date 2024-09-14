@@ -2,19 +2,25 @@ import { Money } from 'src/shared/valueObject';
 import { OrderLine } from './orderLine';
 import { IllegalArgumentError } from 'src/shared/error';
 import { ShippingInfo } from './shippingInfo';
+import { EOrderState } from './orderState';
+import { IllegalStateError } from '@src/shared/error/illegalStateError';
 
 export class Order {
+  private state: EOrderState;
   private orderLines: OrderLine[];
   private shippingInfo: ShippingInfo;
   private totalAmounts: Money;
 
   constructor({
+    state,
     orderLines,
     shippingInfo,
   }: {
+    state: EOrderState;
     orderLines: OrderLine[];
     shippingInfo: ShippingInfo;
   }) {
+    this.state = state;
     this.setOrderLines(orderLines);
     this.setShippingInfo(shippingInfo);
   }
@@ -49,11 +55,27 @@ export class Order {
     return this.totalAmounts;
   };
 
-  changeShipped = () => {};
+  getShippingInfo = () => {
+    return this.shippingInfo;
+  }
 
-  changeShippingInfo = () => {};
+  changeShipped = () => { };
 
-  cancel = () => {};
+  changeShippingInfo = (newShippingInfo: ShippingInfo) => {
+    this.verifyNotYetShipped();
+    this.setShippingInfo(newShippingInfo);
+  };
 
-  completePayment = () => {};
+  cancel = () => {
+    this.verifyNotYetShipped();
+    this.state = EOrderState.CANCELED;
+  };
+
+  private verifyNotYetShipped = () => {
+    if (this.state != EOrderState.PAYMENT_WAITING && this.state != EOrderState.PREPARING) {
+      throw new IllegalStateError({ message: 'already shipped' });
+    }
+  }
+
+  completePayment = () => { };
 }
