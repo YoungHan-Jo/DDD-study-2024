@@ -36,14 +36,25 @@ describe('Order', () => {
         const order = new Order({
             orderLines: [orderLineA, orderLineB],
             shippingInfo,
-            state: EOrderState.PAYMENT_WAITING
+            state: EOrderState.PREPARING
         });
 
         // Then
         expect(order.getTotalAmounts()).toEqual(
             new Money(priceA * quantityA + priceB * quantityB),
         );
+        expect(order.getState()).toEqual(EOrderState.PREPARING);
     });
+
+    it('If state is optional, state would be PAYMENT_WAITING', () => {
+        // Given & When
+        const order = new Order({
+            orderLines: [orderLineA, orderLineB],
+            shippingInfo,
+        })
+        // Then
+        expect(order.getState()).toEqual(EOrderState.PAYMENT_WAITING);
+    })
 
     it('if no orderLines, throw illegalArgumentError', () => {
         // Given

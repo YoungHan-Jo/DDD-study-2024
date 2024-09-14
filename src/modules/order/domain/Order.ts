@@ -6,23 +6,23 @@ import { EOrderState } from './orderState';
 import { IllegalStateError } from '@src/shared/error/illegalStateError';
 
 export class Order {
-  private state: EOrderState;
   private orderLines: OrderLine[];
-  private shippingInfo: ShippingInfo;
   private totalAmounts: Money;
+  private shippingInfo: ShippingInfo;
+  private state: EOrderState;
 
   constructor({
-    state,
     orderLines,
     shippingInfo,
+    state = EOrderState.PAYMENT_WAITING,
   }: {
-    state: EOrderState;
     orderLines: OrderLine[];
     shippingInfo: ShippingInfo;
+    state?: EOrderState;
   }) {
-    this.state = state;
     this.setOrderLines(orderLines);
     this.setShippingInfo(shippingInfo);
+    this.state = state;
   }
 
   private setOrderLines = (orderLines: OrderLine[]) => {
@@ -57,6 +57,10 @@ export class Order {
 
   getShippingInfo = () => {
     return this.shippingInfo;
+  }
+
+  getState = () => {
+    return this.state;
   }
 
   changeShipped = () => { };
