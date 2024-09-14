@@ -4,24 +4,29 @@ import { IllegalArgumentError } from 'src/shared/error';
 import { ShippingInfo } from './shippingInfo';
 import { EOrderState } from './orderState';
 import { IllegalStateError } from '@src/shared/error/illegalStateError';
+import { randomUUID } from 'crypto';
 
 export class Order {
+  private orderNumber: string;
   private orderLines: OrderLine[];
   private totalAmounts: Money;
   private shippingInfo: ShippingInfo;
   private state: EOrderState;
 
   constructor({
+    orderNumber,
     orderLines,
     shippingInfo,
     state = EOrderState.PAYMENT_WAITING,
   }: {
+    orderNumber?: string;
     orderLines: OrderLine[];
     shippingInfo: ShippingInfo;
     state?: EOrderState;
   }) {
     this.setOrderLines(orderLines);
     this.setShippingInfo(shippingInfo);
+    this.orderNumber = orderNumber ?? randomUUID();
     this.state = state;
   }
 
