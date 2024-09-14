@@ -1,10 +1,11 @@
+import { Money } from '@src/shared/valueObject';
 import { Product } from './product';
 
 export class OrderLine {
   private product: Product;
-  private price: number;
+  private price: Money;
   private quantity: number;
-  private amounts: number;
+  private amounts: Money;
 
   constructor({
     product,
@@ -12,7 +13,7 @@ export class OrderLine {
     quantity,
   }: {
     product: Product;
-    price: number;
+    price: Money;
     quantity: number;
   }) {
     this.product = product;
@@ -22,7 +23,7 @@ export class OrderLine {
   }
 
   private calculateAmounts = () => {
-    return this.price * this.quantity;
+    return this.price.multiply(this.quantity);
   };
 
   getAmounts = () => {

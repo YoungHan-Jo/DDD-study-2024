@@ -50,10 +50,9 @@ export class Order {
   };
 
   private calculateTotalAmounts = () => {
-    const sum = this.orderLines.reduce((acc, orderLine) => {
-      return acc + orderLine.getAmounts();
-    }, 0);
-    this.totalAmounts = new Money(sum);
+    this.totalAmounts = this.orderLines.reduce((acc, orderLine) => {
+      return acc.plus(orderLine.getAmounts());
+    }, new Money(0));
   };
 
   getTotalAmounts = () => {
