@@ -1,13 +1,22 @@
 import { Money } from 'src/shared/valueObject';
 import { OrderLine } from './orderLine';
 import { IllegalArgumentError } from 'src/shared/error';
+import { ShippingInfo } from './shippingInfo';
 
 export class Order {
   private orderLines: OrderLine[];
+  private shippingInfo: ShippingInfo;
   private totalAmounts: Money;
 
-  constructor({ orderLines }: { orderLines: OrderLine[] }) {
+  constructor({
+    orderLines,
+    shippingInfo,
+  }: {
+    orderLines: OrderLine[];
+    shippingInfo: ShippingInfo;
+  }) {
     this.setOrderLines(orderLines);
+    this.setShippingInfo(shippingInfo);
   }
 
   private setOrderLines = (orderLines: OrderLine[]) => {
@@ -20,6 +29,13 @@ export class Order {
     if (orderLines.length === 0) {
       throw new IllegalArgumentError({ message: 'no OrderLine' });
     }
+  };
+
+  private setShippingInfo = (shippingInfo: ShippingInfo) => {
+    if (shippingInfo === null || shippingInfo === undefined) {
+      throw new IllegalArgumentError({ message: 'no shippingInfo' });
+    }
+    this.shippingInfo = shippingInfo;
   };
 
   private calculateTotalAmounts = () => {
