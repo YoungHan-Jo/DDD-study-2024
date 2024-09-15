@@ -1,17 +1,29 @@
 export class Receiver {
-  private name: string;
-  private phoneNumber: string;
+    private name: string;
+    private phoneNumber: string;
 
-  constructor({ name, phoneNumber }: { name: string; phoneNumber: string }) {
-    this.name = name;
-    this.phoneNumber = phoneNumber;
-  }
+    constructor({ name, phoneNumber }: { name: string; phoneNumber: string }) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+    }
 
-  getName = () => {
-    return this.name;
-  };
+    equals(other: Object) {
+        if (other === null) return false;
+        if (this === other) return true;
+        if (!(other instanceof Receiver)) return false;
 
-  getPhoneNumber = () => {
-    return this.phoneNumber;
-  };
+        const that = other as Receiver;
+        return (
+            this.name === that.name &&
+            this.phoneNumber === that.phoneNumber
+        );
+    }
+
+    getName = () => {
+        return this.name;
+    };
+
+    getPhoneNumber = () => {
+        return this.phoneNumber;
+    };
 }
