@@ -1,5 +1,5 @@
 import { NoCustomerError } from '@src/shared/error';
-import { CalculateDiscountService } from './calculateDiscountService';
+import { CalculateDiscountService } from './calculateDiscount.service';
 import { RuleDiscounter } from './ruleDiscounter.interface';
 import { CustomerRepository } from '../../customer/customerRepository.interface';
 

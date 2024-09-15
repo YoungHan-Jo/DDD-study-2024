@@ -6,9 +6,10 @@ import { Orderer } from '../value/orderer';
 import { OrderLine } from '../orderLine';
 import { ShippingInfo } from '../shippingInfo';
 import { EOrderState } from '../orderState.enum';
+import { OrderNumber } from '../value/orderNumber';
 
 export class Order {
-  private orderNumber: string;
+  private orderNumber: OrderNumber;
   private orderer: Orderer;
   private shippingInfo: ShippingInfo;
   private orderLines: OrderLine[];
@@ -21,14 +22,14 @@ export class Order {
     shippingInfo,
     state = EOrderState.PAYMENT_WAITING,
   }: {
-    orderNumber?: string;
+    orderNumber?: OrderNumber;
     orderLines: OrderLine[];
     shippingInfo: ShippingInfo;
     state?: EOrderState;
   }) {
     this.setOrderLines(orderLines);
     this.setShippingInfo(shippingInfo);
-    this.orderNumber = orderNumber ?? randomUUID();
+    this.orderNumber = orderNumber ?? new OrderNumber(randomUUID());
     this.state = state;
   }
 
