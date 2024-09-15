@@ -1,6 +1,6 @@
 import { BaseError } from '../utils/baseError';
 
-export class NoOrderError extends BaseError {
+export class PasswordNotMatchError extends BaseError {
   constructor({ message, cause }: { message: string; cause?: any }) {
     super({
       message,

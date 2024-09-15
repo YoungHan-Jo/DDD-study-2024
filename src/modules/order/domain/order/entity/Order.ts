@@ -3,10 +3,10 @@ import { IllegalArgumentError } from 'src/shared/error';
 import { IllegalStateError } from '@src/shared/error/illegalStateError';
 import { randomUUID } from 'crypto';
 import { Orderer } from '../value/orderer';
-import { OrderLine } from '../orderLine';
 import { ShippingInfo } from '../shippingInfo';
 import { EOrderState } from '../orderState.enum';
 import { OrderNumber } from '../value/orderNumber';
+import { OrderLine } from '../value/orderLine';
 
 export class Order {
   private orderNumber: OrderNumber;
@@ -49,7 +49,7 @@ export class Order {
     if (newShippingInfo === null || newShippingInfo === undefined) {
       throw new IllegalArgumentError({ message: 'no shippingInfo' });
     }
-    // value 타입의 데이터를 변경할때는 새로운 객체로 교체
+    // value 타입의 데이터를 변경할때는 새로운 객체로 교체(밸류 타입은 불변이어야 함)
     this.shippingInfo = newShippingInfo;
   };
 
@@ -63,6 +63,10 @@ export class Order {
     return this.totalAmounts;
   };
 
+  changeOrderLines = (orderLines: OrderLine[]) => {
+    this.setOrderLines(orderLines);
+  };
+
   getShippingInfo = () => {
     return this.shippingInfo;
   };
@@ -71,10 +75,11 @@ export class Order {
     return this.state;
   };
 
-  changeShipped = () => { };
+  changeShipped = () => {};
 
   // 도메인 모델 엔티티는 도메인 기능도 함께 제공
   // 단순히 데이터를 담고 있는 데이터구조(DB 테이블)이 아닌 도메인 로직을 포함
+  // 애그리거트 루트는 도메인 규칙을 구현한 기능을 제공한다.
   changeShippingInfo = (newShippingInfo: ShippingInfo) => {
     this.verifyNotYetShipped();
     this.setShippingInfo(newShippingInfo);
@@ -91,5 +96,5 @@ export class Order {
     }
   };
 
-  completePayment = () => { };
+  completePayment = () => {};
 }

@@ -6,7 +6,7 @@ import { CalculateDiscountService } from '../domain/service/calculateDiscount/ca
 export class OrderService {
   constructor(
     private readonly calculateDiscountService: CalculateDiscountService,
-  ) { }
+  ) {}
 
   calculateDiscount = (orderLines: OrderLine[], customerId: string) => {
     return this.calculateDiscountService.calculateDiscount(
