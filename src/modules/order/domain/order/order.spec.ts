@@ -1,12 +1,12 @@
 import { IllegalArgumentError, IllegalStateError } from '@src/shared/error';
 import { Money } from '@src/shared/valueObject';
-import { Order } from './Order';
 import { OrderLine } from './orderLine';
 import { Product } from './product';
 import { ShippingInfo } from './shippingInfo';
 import { EOrderState } from './orderState.enum';
 import { Receiver } from './receiver';
 import { Address } from './address';
+import { Order } from './entity/Order';
 
 describe('Order', () => {
   const product = new Product({ name: 'sample product A' });
