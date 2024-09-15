@@ -7,6 +7,15 @@ export class Receiver {
     this.phoneNumber = phoneNumber;
   }
 
+  equals(other: Object) {
+    if (other === null) return false;
+    if (this === other) return true;
+    if (!(other instanceof Receiver)) return false;
+
+    const that = other as Receiver;
+    return this.name === that.name && this.phoneNumber === that.phoneNumber;
+  }
+
   getName = () => {
     return this.name;
   };

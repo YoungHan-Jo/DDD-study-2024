@@ -14,8 +14,10 @@ export class EOrderState extends EnumType<EOrderState>() {
   }
 
   isNotYetShipped = (): boolean => {
-    return this === EOrderState.PAYMENT_WAITING || this === EOrderState.PREPARING;
-  }
+    return (
+      this === EOrderState.PAYMENT_WAITING || this === EOrderState.PREPARING
+    );
+  };
 
   get code(): string {
     return this._code;
