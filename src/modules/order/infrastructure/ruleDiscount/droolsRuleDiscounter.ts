@@ -1,8 +1,8 @@
 import { Money } from '@src/shared/valueObject';
-import { RuleDiscounter } from '../../domain/calculateDiscount/ruleDiscounter.interface';
 import { Customer } from '../../domain/customer/customer';
 import { OrderLine } from '../../domain';
 import { Injectable } from '@nestjs/common';
+import { RuleDiscounter } from '../../domain/service/calculateDiscount/ruleDiscounter.interface';
 
 @Injectable()
 export class DroolsRuleDiscounter implements RuleDiscounter {

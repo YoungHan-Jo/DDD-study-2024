@@ -1,16 +1,19 @@
 import { Money } from 'src/shared/valueObject';
-import { OrderLine } from './orderLine';
 import { IllegalArgumentError } from 'src/shared/error';
-import { ShippingInfo } from './shippingInfo';
-import { EOrderState } from './orderState.enum';
 import { IllegalStateError } from '@src/shared/error/illegalStateError';
 import { randomUUID } from 'crypto';
+import { Orderer } from '../value/orderer';
+import { OrderLine } from '../orderLine';
+import { ShippingInfo } from '../shippingInfo';
+import { EOrderState } from '../orderState.enum';
+import { OrderNumber } from '../value/orderNumber';
 
 export class Order {
-  private orderNumber: string;
+  private orderNumber: OrderNumber;
+  private orderer: Orderer;
+  private shippingInfo: ShippingInfo;
   private orderLines: OrderLine[];
   private totalAmounts: Money;
-  private shippingInfo: ShippingInfo;
   private state: EOrderState;
 
   constructor({
@@ -19,14 +22,14 @@ export class Order {
     shippingInfo,
     state = EOrderState.PAYMENT_WAITING,
   }: {
-    orderNumber?: string;
+    orderNumber?: OrderNumber;
     orderLines: OrderLine[];
     shippingInfo: ShippingInfo;
     state?: EOrderState;
   }) {
     this.setOrderLines(orderLines);
     this.setShippingInfo(shippingInfo);
-    this.orderNumber = orderNumber ?? randomUUID();
+    this.orderNumber = orderNumber ?? new OrderNumber(randomUUID());
     this.state = state;
   }
 
@@ -42,11 +45,12 @@ export class Order {
     }
   };
 
-  private setShippingInfo = (shippingInfo: ShippingInfo) => {
-    if (shippingInfo === null || shippingInfo === undefined) {
+  private setShippingInfo = (newShippingInfo: ShippingInfo) => {
+    if (newShippingInfo === null || newShippingInfo === undefined) {
       throw new IllegalArgumentError({ message: 'no shippingInfo' });
     }
-    this.shippingInfo = shippingInfo;
+    // value 타입의 데이터를 변경할때는 새로운 객체로 교체
+    this.shippingInfo = newShippingInfo;
   };
 
   private calculateTotalAmounts = () => {
@@ -67,8 +71,10 @@ export class Order {
     return this.state;
   };
 
-  changeShipped = () => {};
+  changeShipped = () => { };
 
+  // 도메인 모델 엔티티는 도메인 기능도 함께 제공
+  // 단순히 데이터를 담고 있는 데이터구조(DB 테이블)이 아닌 도메인 로직을 포함
   changeShippingInfo = (newShippingInfo: ShippingInfo) => {
     this.verifyNotYetShipped();
     this.setShippingInfo(newShippingInfo);
@@ -85,5 +91,5 @@ export class Order {
     }
   };
 
-  completePayment = () => {};
+  completePayment = () => { };
 }

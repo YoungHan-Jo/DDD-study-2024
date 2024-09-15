@@ -1,3 +1,3 @@
 export * from './order/product';
 export * from './order/orderLine';
-export * from './order/Order';
+export * from './order/entity/order';
