@@ -1,4 +1,4 @@
-import { Order } from "../entity/Order";
+import { Order } from "../entity/order";
 import { OrderNumber } from "../value/orderNumber";
 
 export interface OrderRepository {

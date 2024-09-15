@@ -6,7 +6,7 @@ import { ShippingInfo } from './shippingInfo';
 import { EOrderState } from './orderState.enum';
 import { Receiver } from './receiver';
 import { Address } from './address';
-import { Order } from './entity/Order';
+import { Order } from './entity/order';
 
 describe('Order', () => {
   const product = new Product({ name: 'sample product A' });
