@@ -2,7 +2,7 @@ import { Money } from 'src/shared/valueObject';
 import { OrderLine } from './orderLine';
 import { IllegalArgumentError } from 'src/shared/error';
 import { ShippingInfo } from './shippingInfo';
-import { EOrderState } from './orderState';
+import { EOrderState } from './orderState.enum';
 import { IllegalStateError } from '@src/shared/error/illegalStateError';
 import { randomUUID } from 'crypto';
 
@@ -67,7 +67,7 @@ export class Order {
     return this.state;
   };
 
-  changeShipped = () => { };
+  changeShipped = () => {};
 
   changeShippingInfo = (newShippingInfo: ShippingInfo) => {
     this.verifyNotYetShipped();
@@ -80,12 +80,10 @@ export class Order {
   };
 
   private verifyNotYetShipped = () => {
-    if (
-      !this.state.isNotYetShipped()
-    ) {
+    if (!this.state.isNotYetShipped()) {
       throw new IllegalStateError({ message: 'already shipped' });
     }
   };
 
-  completePayment = () => { };
+  completePayment = () => {};
 }
