@@ -4,25 +4,30 @@ import { IllegalArgumentError } from 'src/shared/error';
 import { ShippingInfo } from './shippingInfo';
 import { EOrderState } from './orderState';
 import { IllegalStateError } from '@src/shared/error/illegalStateError';
+import { randomUUID } from 'crypto';
 
 export class Order {
-  private state: EOrderState;
+  private orderNumber: string;
   private orderLines: OrderLine[];
-  private shippingInfo: ShippingInfo;
   private totalAmounts: Money;
+  private shippingInfo: ShippingInfo;
+  private state: EOrderState;
 
   constructor({
-    state,
+    orderNumber,
     orderLines,
     shippingInfo,
+    state = EOrderState.PAYMENT_WAITING,
   }: {
-    state: EOrderState;
+    orderNumber?: string;
     orderLines: OrderLine[];
     shippingInfo: ShippingInfo;
+    state?: EOrderState;
   }) {
-    this.state = state;
     this.setOrderLines(orderLines);
     this.setShippingInfo(shippingInfo);
+    this.orderNumber = orderNumber ?? randomUUID();
+    this.state = state;
   }
 
   private setOrderLines = (orderLines: OrderLine[]) => {
@@ -45,10 +50,9 @@ export class Order {
   };
 
   private calculateTotalAmounts = () => {
-    const sum = this.orderLines.reduce((acc, orderLine) => {
-      return acc + orderLine.getAmounts();
-    }, 0);
-    this.totalAmounts = new Money(sum);
+    this.totalAmounts = this.orderLines.reduce((acc, orderLine) => {
+      return acc.plus(orderLine.getAmounts());
+    }, new Money(0));
   };
 
   getTotalAmounts = () => {
@@ -57,7 +61,11 @@ export class Order {
 
   getShippingInfo = () => {
     return this.shippingInfo;
-  }
+  };
+
+  getState = () => {
+    return this.state;
+  };
 
   changeShipped = () => { };
 
@@ -72,10 +80,12 @@ export class Order {
   };
 
   private verifyNotYetShipped = () => {
-    if (this.state != EOrderState.PAYMENT_WAITING && this.state != EOrderState.PREPARING) {
+    if (
+      !this.state.isNotYetShipped()
+    ) {
       throw new IllegalStateError({ message: 'already shipped' });
     }
-  }
+  };
 
   completePayment = () => { };
 }
