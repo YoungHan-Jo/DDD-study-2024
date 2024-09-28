@@ -1,16 +1,23 @@
 import { IllegalArgumentError, IllegalStateError } from '@src/shared/error';
 import { Money, OrderId } from '@src/shared/valueObject';
 import { OrderLine } from './value/orderLine';
-import { Product } from './product';
+import { Product } from '../../../product/domain/entity/product';
 import { ShippingInfo } from './shippingInfo';
 import { EOrderState } from './orderState.enum';
 import { Receiver } from './receiver';
 import { Address } from './address';
 import { Order } from './entity/order';
+import { StoreId } from '@src/shared/valueObject/storeId';
+import { ProductId } from '@src/modules/product/domain/value/productId';
+import { randomUUID } from 'crypto';
 
 describe('Order', () => {
   const orderId = new OrderId('1234');
-  const product = new Product({ name: 'sample product A' });
+  const product = new Product({
+    id: new ProductId(randomUUID()),
+    storeId: new StoreId('storeId'),
+    name: 'sample product A',
+  });
   const priceA = new Money(1000);
   const quantityA = 2;
   const priceB = new Money(2000);
