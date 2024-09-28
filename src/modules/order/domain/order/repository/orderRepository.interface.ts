@@ -1,5 +1,5 @@
 import { Order } from '../entity/order';
-import { OrderId } from '../value/orderId';
+import { OrderId } from '../../../../../shared/valueObject/orderId';
 import { OrderNumber } from '../value/orderNumber';
 
 export interface OrderRepository {

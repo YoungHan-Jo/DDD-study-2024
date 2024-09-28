@@ -1,4 +1,4 @@
-import { MemberId } from "@src/modules/member/domain/member/value/memberId";
+import { MemberId } from '@src/shared/valueObject';
 
 export class Orderer {
   private memberId: MemberId;
@@ -12,5 +12,5 @@ export class Orderer {
 
   getMemberId = () => {
     return this.memberId;
-  }
+  };
 }
