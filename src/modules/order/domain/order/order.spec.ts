@@ -1,6 +1,6 @@
 import { IllegalArgumentError, IllegalStateError } from '@src/shared/error';
 import { Money } from '@src/shared/valueObject';
-import { OrderLine } from './orderLine';
+import { OrderLine } from './value/orderLine';
 import { Product } from './product';
 import { ShippingInfo } from './shippingInfo';
 import { EOrderState } from './orderState.enum';
@@ -227,6 +227,23 @@ describe('Order', () => {
     expect(() => {
       order.changeShippingInfo(newShippingInfo);
     }).toThrow(IllegalStateError);
+  });
+
+  it('change orderLines', () => {
+    // Given
+    const newOrderLineA = generateOrderLine(product, priceA, 3);
+
+    // When
+    const order = new Order({
+      orderLines: [orderLineA, orderLineB],
+      shippingInfo,
+    });
+    order.changeOrderLines([newOrderLineA]);
+
+    // Then
+    expect(
+      order.getTotalAmounts().equals(newOrderLineA.getAmounts()),
+    ).toBeTruthy();
   });
 });
 

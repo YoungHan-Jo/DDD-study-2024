@@ -2,14 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { RuleDiscounter } from './ruleDiscounter.interface';
 import { NoCustomerError } from '@src/shared/error';
 import { CustomerRepository } from '../../customer/customerRepository.interface';
-import { OrderLine } from '../../order/orderLine';
+import { OrderLine } from '../../order/value/orderLine';
 
 @Injectable()
 export class CalculateDiscountService {
   constructor(
     private readonly customerRepository: CustomerRepository,
     private readonly ruleDiscounter: RuleDiscounter,
-  ) { }
+  ) {}
 
   calculateDiscount = (orderLines: OrderLine[], customerId: string) => {
     const customer = this.findCustomer(customerId);
