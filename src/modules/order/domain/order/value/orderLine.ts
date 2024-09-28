@@ -1,5 +1,5 @@
 import { Money } from '@src/shared/valueObject';
-import { Product } from './../product';
+import { Product } from '../../../../product/domain/entity/product';
 
 export class OrderLine {
   private product: Product;
