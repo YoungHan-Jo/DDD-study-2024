@@ -1,5 +1,5 @@
 import { IllegalArgumentError, IllegalStateError } from '@src/shared/error';
-import { Money } from '@src/shared/valueObject';
+import { Money, OrderId } from '@src/shared/valueObject';
 import { OrderLine } from './value/orderLine';
 import { Product } from './product';
 import { ShippingInfo } from './shippingInfo';
@@ -9,6 +9,7 @@ import { Address } from './address';
 import { Order } from './entity/order';
 
 describe('Order', () => {
+  const orderId = new OrderId('1234');
   const product = new Product({ name: 'sample product A' });
   const priceA = new Money(1000);
   const quantityA = 2;
@@ -36,6 +37,7 @@ describe('Order', () => {
 
     // When
     const order = new Order({
+      orderId: orderId,
       orderLines: [orderLineA, orderLineB],
       shippingInfo,
       state: EOrderState.PREPARING,
@@ -53,6 +55,7 @@ describe('Order', () => {
   it('If state is optional, state would be PAYMENT_WAITING', () => {
     // Given & When
     const order = new Order({
+      orderId: orderId,
       orderLines: [orderLineA, orderLineB],
       shippingInfo,
     });
@@ -66,6 +69,7 @@ describe('Order', () => {
     // When & Then
     expect(() => {
       new Order({
+        orderId: orderId,
         orderLines: [],
         shippingInfo,
         state: EOrderState.PAYMENT_WAITING,
@@ -79,6 +83,7 @@ describe('Order', () => {
     // When & Then
     expect(() => {
       new Order({
+        orderId: orderId,
         orderLines: [orderLineA],
         shippingInfo: null,
         state: EOrderState.PAYMENT_WAITING,
@@ -99,6 +104,7 @@ describe('Order', () => {
     });
 
     const order = new Order({
+      orderId: orderId,
       orderLines: [orderLineA, orderLineB],
       shippingInfo,
       state,
@@ -124,6 +130,7 @@ describe('Order', () => {
     });
 
     const order = new Order({
+      orderId: orderId,
       orderLines: [orderLineA, orderLineB],
       shippingInfo,
       state,
@@ -149,6 +156,7 @@ describe('Order', () => {
     });
 
     const order = new Order({
+      orderId: orderId,
       orderLines: [orderLineA, orderLineB],
       shippingInfo,
       state,
@@ -172,6 +180,7 @@ describe('Order', () => {
     });
 
     const order = new Order({
+      orderId: orderId,
       orderLines: [orderLineA, orderLineB],
       shippingInfo,
       state,
@@ -195,6 +204,7 @@ describe('Order', () => {
     });
 
     const order = new Order({
+      orderId: orderId,
       orderLines: [orderLineA, orderLineB],
       shippingInfo,
       state,
@@ -218,6 +228,7 @@ describe('Order', () => {
     });
 
     const order = new Order({
+      orderId: orderId,
       orderLines: [orderLineA, orderLineB],
       shippingInfo,
       state,
@@ -235,6 +246,7 @@ describe('Order', () => {
 
     // When
     const order = new Order({
+      orderId: orderId,
       orderLines: [orderLineA, orderLineB],
       shippingInfo,
     });

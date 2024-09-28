@@ -1,13 +1,23 @@
 import { PasswordNotMatchError } from '@src/shared/error/passwordNotMatchError';
-import { Member } from './member';
-import { Password } from './password';
+import { Member } from './member/entity/member';
+import { Password } from './member/value/password';
+import { Address } from '@src/modules/order/domain/order/address';
 
 describe('Member', () => {
+  const address = new Address({
+    address1: 'address1',
+    address2: 'address2',
+    zipCode: 'zipCode',
+  });
+
   it('change password', () => {
     // Given
     const currentPassword = 'password';
     const newPassword = 'newPassword';
-    const member = new Member(currentPassword);
+    const member = new Member({
+      address: address,
+      password: currentPassword,
+    });
 
     // When
     member.changePassword(currentPassword, newPassword);
@@ -18,7 +28,10 @@ describe('Member', () => {
 
   it('If wrong currentPassword, throw PasswordNotMatchError', () => {
     // Given
-    const member = new Member('password');
+    const member = new Member({
+      address: address,
+      password: 'password',
+    });
 
     // When & Then
     expect(() => {
