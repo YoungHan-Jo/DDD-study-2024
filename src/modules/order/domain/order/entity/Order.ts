@@ -8,6 +8,7 @@ import { EOrderState } from '../orderState.enum';
 import { OrderNumber } from '../value/orderNumber';
 import { OrderLine } from '../value/orderLine';
 
+
 export class Order {
   private orderNumber: OrderNumber;
   private orderer: Orderer;
@@ -75,7 +76,7 @@ export class Order {
     return this.state;
   };
 
-  changeShipped = () => {};
+  changeShipped = () => { };
 
   // 도메인 모델 엔티티는 도메인 기능도 함께 제공
   // 단순히 데이터를 담고 있는 데이터구조(DB 테이블)이 아닌 도메인 로직을 포함
@@ -96,5 +97,5 @@ export class Order {
     }
   };
 
-  completePayment = () => {};
+  completePayment = () => { };
 }
