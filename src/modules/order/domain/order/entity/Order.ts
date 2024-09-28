@@ -7,9 +7,11 @@ import { ShippingInfo } from '../shippingInfo';
 import { EOrderState } from '../orderState.enum';
 import { OrderNumber } from '../value/orderNumber';
 import { OrderLine } from '../value/orderLine';
+import { OrderId } from '../value/orderId';
 
 
 export class Order {
+  private orderId: OrderId;
   private orderNumber: OrderNumber;
   private orderer: Orderer;
   private shippingInfo: ShippingInfo;
@@ -18,16 +20,19 @@ export class Order {
   private state: EOrderState;
 
   constructor({
+    orderId,
     orderNumber,
     orderLines,
     shippingInfo,
     state = EOrderState.PAYMENT_WAITING,
   }: {
+    orderId: OrderId;
     orderNumber?: OrderNumber;
     orderLines: OrderLine[];
     shippingInfo: ShippingInfo;
     state?: EOrderState;
   }) {
+    this.orderId = orderId;
     this.setOrderLines(orderLines);
     this.setShippingInfo(shippingInfo);
     this.orderNumber = orderNumber ?? new OrderNumber(randomUUID());
@@ -60,6 +65,9 @@ export class Order {
     }, new Money(0));
   };
 
+  getOrderer = () => {
+    return this.orderer;
+  }
   getTotalAmounts = () => {
     return this.totalAmounts;
   };

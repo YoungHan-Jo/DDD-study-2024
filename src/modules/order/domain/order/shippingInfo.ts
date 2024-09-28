@@ -9,4 +9,8 @@ export class ShippingInfo {
     this.receiver = receiver;
     this.address = address;
   }
+
+  getAddress = () => {
+    return this.address;
+  };
 }

@@ -5,6 +5,7 @@ import { CancelOrderService } from './cancelOrder.service';
 
 describe('cancelOrderService', () => {
   const stubRepo: OrderRepository = {
+    findById: jest.fn(),
     findByNumber: jest.fn(),
     save: jest.fn(),
     delete: jest.fn(),

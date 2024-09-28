@@ -1,6 +1,7 @@
 import { PasswordNotMatchError } from '@src/shared/error/passwordNotMatchError';
-import { Member } from './member';
-import { Password } from './password';
+import { Member } from './member/entity/member';
+import { Password } from './member/value/password';
+
 
 describe('Member', () => {
   it('change password', () => {
